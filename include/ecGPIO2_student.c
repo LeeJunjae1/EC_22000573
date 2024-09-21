@@ -2,7 +2,7 @@
 @ Embedded Controller by Junjae Lee - Handong Global University
 Author           : SSS LAB
 Created          : 09-10-2024
-Modified         : 09-10-2024
+Modified         : 09-21-2024
 Language/ver     : C++ in Keil uVision
 
 Description      : Distributed to Students for LAB_GPIO
@@ -134,173 +134,102 @@ void GPIO_write(PinName_t pinName, int Output){
 	
 }
 
+//for use 7-segment decoder
+PinName_t PinNameA;
+PinName_t PinNameB;
+PinName_t PinNameC;
+PinName_t PinNameD;
+
+
+
 void sevensegment_display_init(PinName_t pinNameA, PinName_t pinNameB, PinName_t pinNameC, PinName_t pinNameD){
-	/*
-	GPIO_TypeDef * Port;
-	unsigned int pin;
-	ecPinmap(pinNameA, &Port, &pin);
-	RCC_GPIO_enable(pinNameA); //pinNameA enable
 	
-	ecPinmap(pinNameB, &Port, &pin);
-	RCC_GPIO_enable(pinNameB); //pinNameB enable
-	
-	ecPinmap(pinNameC, &Port, &pin);
-	RCC_GPIO_enable(pinNameC); //pinNameC enable
-	
-	ecPinmap(pinNameD, &Port, &pin);
-	RCC_GPIO_enable(pinNameD); //pinNameD enable*/
-	GPIO_init(pinNameA, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(pinNameA, EC_PU);//No pull-up-pull-down
-	GPIO_otype(pinNameA, 0);//push-pull
-	GPIO_ospeed(pinNameA, Medium_speed);//medium speed
-	
-	GPIO_init(pinNameB, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(pinNameB, EC_PU);//No pull-up-pull-down
-	GPIO_otype(pinNameB, 0);//push-pull
-	GPIO_ospeed(pinNameB, Medium_speed);//medium speed
-	
-	GPIO_init(pinNameC, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(pinNameC, EC_PU);//No pull-up-pull-down
-	GPIO_otype(pinNameC, 0);//push-pull
-	GPIO_ospeed(pinNameC, Medium_speed);//medium speed
-	
-	GPIO_init(pinNameD, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(pinNameD, EC_PU);//No pull-up-pull-down
-	GPIO_otype(pinNameD, 0);//push-pull
-	GPIO_ospeed(pinNameD, Medium_speed);//medium speed
+	//pinname array
+	char PinName[4]={pinNameA, pinNameB, pinNameC, pinNameD};
+	PinNameD=pinNameA;//decoder D pin
+	PinNameC=pinNameB;//decoder C pin
+	PinNameB=pinNameC;//decoder B pin
+	PinNameA=pinNameD;//decoder A pin
+	for(int i=0;i<4;i++){
+		GPIO_init(PinName[i], OUTPUT); //Calls RCC_GPIO_enable(), pinName[i]'s mode: OUTPUT
+	  GPIO_pupd(PinName[i], EC_PU);//No pull-up-pull-down
+	  GPIO_otype(PinName[i], 0);//push-pull
+	  GPIO_ospeed(PinName[i], Medium_speed);//medium speed
+	}
 	
 }
 
+/*
 void sevensegment_display(uint8_t  num){
-	if(num==0){//0b0000
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,LOW);//PB_6=C
-		GPIO_write(PC_7,LOW);//PC_7=B
-		GPIO_write(PA_9,LOW);//PA_9=A
+	int value[10][4]={
+		//D,C,B,A
+		{0,0,0,0},
+		{0,0,0,1},
+		{0,0,1,0},
+		{0,0,1,1},
+		{0,1,0,0},
+		{0,1,0,1},
+		{0,1,1,0},
+		{0,1,1,1},
+		{1,0,0,0},
+		{1,0,0,1}
+	};
+	//{PA_7,PB_6,PC_7,PA_9};
+	char pin_num[4]={PinNameD,PinNameC,PinNameB,PinNameA};
+	for(int i=0;i<4;i++){
+		GPIO_write(pin_num[i],value[num][i]);//PinNameD=PA_7=D, PinNameC=PB_6=C, PinNameB=PC_7=B, PinNameA=PA_9=A
 	}
-	else if(num==1){//0b0001
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,LOW);//PB_6=C
-		GPIO_write(PC_7,LOW);//PC_7=B
-		GPIO_write(PA_9,HIGH);//PA_9=A
-	}
-	else if(num==2){//0b0010
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,LOW);//PB_6=C
-		GPIO_write(PC_7,HIGH);//PC_7=B
-		GPIO_write(PA_9,LOW);//PA_9=A
-	}
-	else if(num==3){//0b0011
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,LOW);//PB_6=C
-		GPIO_write(PC_7,HIGH);//PC_7=B
-		GPIO_write(PA_9,HIGH);//PA_9=A
-	}
-	else if(num==4){//0b0100
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,HIGH);//PB_6=C
-		GPIO_write(PC_7,LOW);//PC_7=B
-		GPIO_write(PA_9,LOW);//PA_9=A
-	}
-	else if(num==5){//0b0101
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,HIGH);//PB_6=C
-		GPIO_write(PC_7,LOW);//PC_7=B
-		GPIO_write(PA_9,HIGH);//PA_9=A
-	}
-	else if(num==6){//0b0110
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,HIGH);//PB_6=C
-		GPIO_write(PC_7,HIGH);//PC_7=B
-		GPIO_write(PA_9,LOW);//PA_9=A
-	}
-	else if(num==7){//0b0111
-		GPIO_write(PA_7,LOW);//PA_7=D
-		GPIO_write(PB_6,HIGH);//PB_6=C
-		GPIO_write(PC_7,HIGH);//PC_7=B
-		GPIO_write(PA_9,HIGH);//PA_9=A
-	}
-	else if(num==8){//0b1000
-		GPIO_write(PA_7,HIGH);//PA_7=D
-		GPIO_write(PB_6,LOW);//PB_6=C
-		GPIO_write(PC_7,LOW);//PC_7=B
-		GPIO_write(PA_9,LOW);//PA_9=A
-		
-	}
-	else if(num==9){//0b1001
-		GPIO_write(PA_7,HIGH);//PA_7=D
-		GPIO_write(PB_6,LOW);//PB_6=C
-		GPIO_write(PC_7,LOW);//PC_7=B
-		GPIO_write(PA_9,HIGH);//PA_9=A
-		
-	}
-	
+}*/
+
+//minimize memory
+void sevensegment_display(uint8_t num) {
+    // D, C, B, A
+    uint8_t value[10] = {
+        0b0000, // 0
+        0b0001, // 1
+        0b0010, // 2
+        0b0011, // 3
+        0b0100, // 4
+        0b0101, // 5
+        0b0110, // 6
+        0b0111, // 7
+        0b1000, // 8
+        0b1001  // 9
+    };
+		//{PA_7,PB_6,PC_7,PA_9};
+    char pin_num[4]={PinNameD,PinNameC,PinNameB,PinNameA};
+    
+	//write value
+    for (int i=0; i<4; i++) {
+			//use bitwise
+        GPIO_write(pin_num[3-i], (value[num]>>i)&0x01);//Create applicable pin content
+    }
 }
+
+
+
 
 //decoder init
 void sevensegment_decoder_init(void){
-	//a
-	GPIO_init(PA_5, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(PA_5, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PA_5, 0);//push-pull
-	GPIO_ospeed(PA_5, Medium_speed);//medium speed
-	
-	//b
-	GPIO_init(PA_6, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(PA_6, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PA_6, 0);//push-pull
-	GPIO_ospeed(PA_6, Medium_speed);//medium speed
-	
-	//c
-	GPIO_init(PA_7, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(PA_7, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PA_7, 0);//push-pull
-	GPIO_ospeed(PA_7, Medium_speed);//medium speed
-	
-	//d
-	GPIO_init(PB_6, OUTPUT); //Calls RCC_GPIOB_enable()
-	GPIO_pupd(PB_6, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PB_6, 0);//push-pull
-	GPIO_ospeed(PB_6, Medium_speed);//medium speed
-	
-	//e
-	GPIO_init(PC_7, OUTPUT); //Calls RCC_GPIOC_enable()
-	GPIO_pupd(PC_7, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PC_7, 0);//push-pull
-	GPIO_ospeed(PC_7, Medium_speed);//medium speed
-	
-	//f
-	GPIO_init(PA_9, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(PA_9, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PA_9, 0);//push-pull
-	GPIO_ospeed(PA_9, Medium_speed);//medium speed
-	
-	//g
-	GPIO_init(PA_8, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(PA_8, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PA_8, 0);//push-pull
-	GPIO_ospeed(PA_8, Medium_speed);//medium speed
-	
-	//h
-	GPIO_init(PB_10, OUTPUT); //Calls RCC_GPIOA_enable()
-	GPIO_pupd(PB_10, EC_PU);//No pull-up-pull-down
-	GPIO_otype(PB_10, 0);//push-pull
-	GPIO_ospeed(PB_10, Medium_speed);//medium speed
-	
-	GPIO_write(PA_5,LOW);//PA_5=a
-	GPIO_write(PA_6,LOW);//PA_6=b
-	GPIO_write(PA_7,LOW);//PA_7=c
-	GPIO_write(PB_6,LOW);//PB_6=d
-	GPIO_write(PC_7,LOW);//PC_7=e
-	GPIO_write(PA_9,LOW);//PA_9=f
-	GPIO_write(PA_8,HIGH);//PA_8=g
-	GPIO_write(PB_10,HIGH);//PB_10=h, vcc
-		/*
-		GPIO_Decoder_clear(PA_5);//GPIOA clear
-		GPIO_Decoder_clear(PB_6);//GPIOB clear
-		GPIO_Decoder_clear(PC_7);//GPIOC clear*/
+	//pinname array, using pins
+	char decoder_ouput[8]={PA_5,PA_6,PA_7,PB_6,PC_7,PA_9,PA_8,PB_10};
+	for(int i=0;i<8;i++){
+		GPIO_init(decoder_ouput[i], OUTPUT); //Calls RCC_GPIOA_enable()
+		GPIO_pupd(decoder_ouput[i], EC_PU);//No pull-up-pull-down
+		GPIO_otype(decoder_ouput[i], 0);//push-pull
+		GPIO_ospeed(decoder_ouput[i], Medium_speed);//medium speed
+		
+		//initialize to display 0
+		if(i==6||i==7){
+			GPIO_write(decoder_ouput[i],HIGH);//write 'HIGH'
+		}
+		else{
+			GPIO_write(decoder_ouput[i],LOW);//write 'LOW'
+		}
+	}
 }
 
+/*
 void GPIO_Decoder_clear(PinName_t pinName){
 	GPIO_TypeDef * Port;
    unsigned int pin;
@@ -309,111 +238,50 @@ void GPIO_Decoder_clear(PinName_t pinName){
 	 Port->ODR &= ~0;//set all 1
  
 	
-}
+}*/
 
-
+/*
 void sevensegment_decoder(uint8_t  num){
-	
-	if(num==0){//1111110
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,LOW);//PC_7=e
-		GPIO_write(PA_9,LOW);//PA_9=f
-		GPIO_write(PA_8,HIGH);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h, vcc
+	int value[10][8]={
+		//a,b,c,d,e,f,g,h
+		{0,0,0,0,0,0,1,1},//0
+		{1,0,0,1,1,1,1,1},//1
+		{0,0,1,0,0,1,0,1},//2
+		{0,0,0,0,1,1,0,1},//3
+		{1,0,0,1,1,0,0,1},//4
+		{0,1,0,0,1,0,0,1},//5
+		{0,1,0,0,0,0,0,1},//6
+		{0,0,0,1,1,1,1,1},//7
+		{0,0,0,0,0,0,0,1},//8
+		{0,0,0,0,1,0,0,1}//9
+	};
+	char decoder_ouput[8]={PA_5,PA_6,PA_7,PB_6,PC_7,PA_9,PA_8,PB_10};
+	for(int i=0;i<8;i++){
+		GPIO_write(decoder_ouput[i],value[num][i]);
 	}
-	else if(num==1){//0110000
-		GPIO_write(PA_5,HIGH);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,HIGH);//PB_6=d
-		GPIO_write(PC_7,HIGH);//PC_7=e
-		GPIO_write(PA_9,HIGH);//PA_9=f
-		GPIO_write(PA_8,HIGH);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==2){//1101101
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,HIGH);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,LOW);//PC_7=e
-		GPIO_write(PA_9,HIGH);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==3){//1111001
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,HIGH);//PC_7=e
-		GPIO_write(PA_9,HIGH);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==4){//0110011
-		GPIO_write(PA_5,HIGH);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,HIGH);//PB_6=d
-		GPIO_write(PC_7,HIGH);//PC_7=e
-		GPIO_write(PA_9,LOW);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==5){//1011011
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,HIGH);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,HIGH);//PC_7=e
-		GPIO_write(PA_9,LOW);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==6){//1011111
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,HIGH);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,LOW);//PC_7=e
-		GPIO_write(PA_9,LOW);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==7){//1110000
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,HIGH);//PB_6=d
-		GPIO_write(PC_7,HIGH);//PC_7=e
-		GPIO_write(PA_9,HIGH);//PA_9=f
-		GPIO_write(PA_8,HIGH);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-	}
-	else if(num==8){//1111111
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,LOW);//PC_7=e
-		GPIO_write(PA_9,LOW);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-		
-	}
-	else if(num==9){//1111011
-		GPIO_write(PA_5,LOW);//PA_5=a
-		GPIO_write(PA_6,LOW);//PA_6=b
-		GPIO_write(PA_7,LOW);//PA_7=c
-		GPIO_write(PB_6,LOW);//PB_6=d
-		GPIO_write(PC_7,HIGH);//PC_7=e
-		GPIO_write(PA_9,LOW);//PA_9=f
-		GPIO_write(PA_8,LOW);//PA_8=g
-		GPIO_write(PB_10,HIGH);//PB_10=h
-		
-	}
+}*/
+
+//minimize memory
+void sevensegment_decoder(uint8_t num) {
+    // a, b, c, d, e, f, g, h
+    uint8_t value[10] = {
+        0b00000011, // 0
+        0b10011111, // 1
+        0b00100101, // 2
+        0b00001101, // 3
+        0b10011001, // 4
+        0b01001001, // 5
+        0b01000001, // 6
+        0b00011111, // 7
+        0b00000001, // 8
+        0b00001001  // 9
+    };
+    //pinname array, using pins
+    char decoder_output[8]={PA_5, PA_6, PA_7, PB_6, PC_7, PA_9, PA_8, PB_10};
+    
+    // Set output states based on the number
+    for (int i=0; i<8; i++) {
+			//use bitwise
+        GPIO_write(decoder_output[7-i], (value[num]>>i)&0x01);//Create applicable pin content
+    }
 }
