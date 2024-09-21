@@ -2,7 +2,7 @@
 @ Embedded Controller by Junjae Lee - Handong Global University
 Author           : SSS LAB
 Created          : 09-10-2024
-Modified         : 09-10-2024
+Modified         : 09-21-2024
 Language/ver     : C++ in Keil uVision
 
 Description      : Distributed to Students for LAB_GPIO
@@ -60,7 +60,7 @@ void sevensegment_display(uint8_t  num);
 void sevensegment_decoder_init(void); 
 void sevensegment_decoder(uint8_t  num);
 
-void GPIO_Decoder_clear(PinName_t pinName);// memorl clear
+//void GPIO_Decoder_clear(PinName_t pinName);// memorl clear
  
 #ifdef __cplusplus
 }
