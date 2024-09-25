@@ -1,0 +1,59 @@
+Dependencies for Project 'LAB_EXTI', Target 'Target 1': (DO NOT MODIFY !)
+CompilerVersion: 6220000::V6.22::ARMCLANG
+F (.\LAB_EXTI.c)(0x66F3E6F1)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/lab_exti.o -MMD)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecGPIO2.h)(0x66F3750E)
+I (..\..\lib\ecRCC2.h)(0x66EACFFC)
+I (..\..\lib\ecPinNames.h)(0x66EACFF3)
+I (..\..\lib\ecSysTick2.h)(0x66F39D53)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecEXTI2.h)(0x66F3613D)
+F (..\..\lib\ecEXTI2.c)(0x66F3E08B)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/ecexti2.o -MMD)
+I (..\..\lib\ecGPIO2.h)(0x66F3750E)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecRCC2.h)(0x66EACFFC)
+I (..\..\lib\ecPinNames.h)(0x66EACFF3)
+I (..\..\lib\ecSysTick2.h)(0x66F39D53)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecEXTI2.h)(0x66F3613D)
+F (..\..\lib\ecEXTI2.h)(0x66F3613D)()
+F (..\..\lib\ecGPIO2.c)(0x66F37BA4)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/ecgpio2.o -MMD)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecGPIO2.h)(0x66F3750E)
+I (..\..\lib\ecRCC2.h)(0x66EACFFC)
+I (..\..\lib\ecPinNames.h)(0x66EACFF3)
+F (..\..\lib\ecGPIO2.h)(0x66F3750E)()
+F (..\..\lib\ecPinNames.c)(0x66EACFEA)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/ecpinnames.o -MMD)
+I (..\..\lib\ecPinNames.h)(0x66EACFF3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
+F (..\..\lib\ecPinNames.h)(0x66EACFF3)()
+F (..\..\lib\ecRCC2.c)(0x66F3798C)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/ecrcc2.o -MMD)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecRCC2.h)(0x66EACFFC)
+F (..\..\lib\ecRCC2.h)(0x66EACFFC)()
+F (..\..\lib\ecSysTick2.c)(0x66F39D4F)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/ecsystick2.o -MMD)
+I (..\..\lib\ecSysTick2.h)(0x66F39D53)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
+I (..\..\lib\ecRCC2.h)(0x66EACFFC)
+F (..\..\lib\ecSysTick2.h)(0x66F39D53)()
+F (RTE/Device/STM32F411RETx/startup_stm32f411xe.s)(0x66D29CA3)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__EVAL SETA 1"-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 540" -Wa,armasm,--pd,"STM32F411xE SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o ./objects/startup_stm32f411xe.o)
+F (RTE/Device/STM32F411RETx/system_stm32f4xx.c)(0x66D29CA3)(-xc --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../../lib-I./RTE/_Target_1-IC:/Users/jjLee/AppData/Local/Arm/Packs/ARM/CMSIS/6.1.0/CMSIS/Core/Include-IC:/Users/jjLee/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.17.1/Drivers/CMSIS/Device/ST/STM32F4xx/Include-D__UVISION_VERSION="540" -DSTM32F411xE -D_RTE_-o ./objects/system_stm32f4xx.o -MMD)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f411xe.h)(0x66D29CA3)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include\core_cm4.h)(0x664BCA78)
+I (C:\Users\jjLee\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66D29CA3)
