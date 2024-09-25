@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------\
 @ Embedded Controller by Junjae Lee - Handong Global University
 Author           : SSS LAB
-Created          : 09-10-2024
-Modified         : 09-10-2024
+Created          : 09-25-2024
+Modified         : 09-25-2024
 Language/ver     : C++ in Keil uVision
 
 Description      : Distributed to Students for LAB_GPIO
@@ -12,8 +12,8 @@ Description      : Distributed to Students for LAB_GPIO
 
 #include "stm32f4xx.h"
 #include "stm32f411xe.h"
-#include "ecGPIO2_student.h"
-#include "ecRCC2_student.h"
+#include "ecGPIO2.h"
+#include "ecRCC2.h"
 
 void RCC_GPIO_enable(PinName_t pinName){
 	GPIO_TypeDef * Port;
