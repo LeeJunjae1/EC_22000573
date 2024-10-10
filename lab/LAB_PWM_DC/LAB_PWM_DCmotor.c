@@ -39,6 +39,7 @@ void setup(void){
 	
 	//Direct pin
 	GPIO_init(PC_2, OUTPUT); //Calls RCC_GPIO_enable(), output
+	GPIO_otype(PC_2, 0);//push-pull
 	
 	//EXTI INIT
 	EXTI_init(PC_13, FALL, 0);//falling edge, priority=0
