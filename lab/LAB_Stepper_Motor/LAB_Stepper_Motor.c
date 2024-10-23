@@ -21,7 +21,7 @@ int main(void) {
 	// Initialiization --------------------------------------------------------
 	setup();
 	
-	Stepper_step(2048*2, 0, FULL);  // (Step : 2048, Direction : 0 or 1, Mode : FULL or HALF)
+	Stepper_step(2048*10, 0, FULL);  // (Step : 2048, Direction : 0 or 1, Mode : FULL or HALF)
 	//1 cw
 	//0 ccw
 	//step 2048(1 rotation, 1 rpm)
@@ -35,6 +35,7 @@ void setup(void){
 	
 	RCC_PLL_init();                                 // System Clock = 84MHz
 	SysTick_init(1000);                                 // Systick init
+	//SysTick_init(1000000);                              // Systick init, use usec. more accurate
 	
 	GPIO_init(BUTTON_PIN, INPUT);  	           // GPIOC pin13 initialization
 	EXTI_init(BUTTON_PIN, FALL,0);           // External Interrupt Setting
