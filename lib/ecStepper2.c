@@ -132,7 +132,9 @@ void Stepper_pinOut (uint32_t state, uint32_t mode){
 void Stepper_setSpeed (long whatSpeed){      // rpm [rev/min]
       //1 rotation->
       //step_delay =    whatSpeed/step_per_rev;//YOUR CODE   // Convert rpm to  [msec/step] delay
-      step_delay=60*1000/(step_per_rev*whatSpeed);
+	
+      step_delay=60*1000/(step_per_rev*whatSpeed);//use msec
+			//step_delay=60*1000000/(step_per_rev)/(whatSpeed);//use usec, more accurate
       //step_delay=100;
 }
 
