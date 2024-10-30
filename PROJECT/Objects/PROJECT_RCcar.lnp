@@ -1,0 +1,19 @@
+--cpu=Cortex-M4.fp.sp
+".\objects\project_rccar.o"
+".\objects\ecadc2.o"
+".\objects\ecexti2.o"
+".\objects\ecgpio2.o"
+".\objects\ecicap2.o"
+".\objects\ecpinnames.o"
+".\objects\ecpwm2.o"
+".\objects\ecrcc2.o"
+".\objects\ecstepper2.o"
+".\objects\ecsystick2.o"
+".\objects\ectim2.o"
+".\objects\ecuart2.o"
+".\objects\startup_stm32f411xe.o"
+".\objects\system_stm32f4xx.o"
+--strict --scatter ".\Objects\PROJECT_RCcar.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\PROJECT_RCcar.map" -o .\Objects\PROJECT_RCcar.axf
