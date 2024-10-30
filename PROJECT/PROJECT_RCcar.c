@@ -2,7 +2,7 @@
 ******************************************************************************
 * @author  SSSLAB
 * @Mod		 2024-10-30 by JunjaeLee
-* @brief   Embedded Controller:  Tutorial - USART communication (Bluetooth)
+* @brief   Embedded Controller: Project Line tracing
 *
 ******************************************************************************
 */
@@ -31,11 +31,15 @@
 #define Dir_Pin_1 PC_2 //direction pin
 #define Dir_Pin_2 PC_3 //direction pin
 
-uint8_t pcData = 0;
-uint8_t btData = 0;
+uint8_t pcData = 0;//pcdata
+uint8_t btData = 0;//bluetooth data
 uint8_t buffer[MAX_BUF] = {0, };
-int bReceive = 0;
+int bReceive = 0;//check bt data received
 int idx = 0;
+
+//IR parameter//
+uint32_t value1, value2;//value1: left ir sensor, value2: right ir sensor
+PinName_t seqCHn[2] = {PB_0, PB_1}; //use to pin as adc
 
 
 float duty=0.8;
@@ -46,6 +50,11 @@ volatile float moterPWM=0.8; //PWM duty
 
 volatile uint32_t moterDIR_2;
 volatile float moterPWM_2=0.8; //PWM duty
+volatile uint32_t Mode_flag=0;// check mode is auto or manual
+uint8_t current_mode = 0;//to print current mode
+uint8_t current_dir = 0;//to print current dir
+
+uint32_t cnt=0;
 
 void setup(void);
 
@@ -56,7 +65,9 @@ int main(void) {
 	USART_write(USART1,(uint8_t*) "Hello bluetooth\r\n",17);
 	// Inifinite Loop ----------------------------------------------------------
 	while (1){
-				
+		
+		printf("MOD: %c DIR: %c\r\n",current_mode, current_dir);
+		delay_ms(1000);
 	}
 			
 }
@@ -72,7 +83,7 @@ void setup(void)
 	UART1_init(); //bluetooth
 	UART1_baud(BAUD_9600);
 	
-	GPIO_init(PA_5, OUTPUT);  // Ensure this is set appropriately
+	GPIO_init(LED_PIN, OUTPUT);  //led pin
 	
 	//motor2
 	PWM_init(Moter_1);// pwm settnig
@@ -99,6 +110,18 @@ void setup(void)
 	NVIC_EnableIRQ(TIM2_IRQn);	// TIM2's interrupt request enabled	
 	//NVIC_SetPriority(TIM2_IRQn, 3);
 	
+	// ADC Init  Default: HW triggered by TIM3 counter @ 1msec
+	//change tim3->tim4
+	JADC_init(PB_0);
+	JADC_init(PB_1);
+
+	// ADC channel sequence setting
+	JADC_sequence(seqCHn, 2);
+	
+	TIM_UI_enable(TIM4);
+	NVIC_EnableIRQ(TIM4_IRQn);
+	NVIC_SetPriority(TIM4_IRQn, 1);
+	
 }
 
 void USART1_IRQHandler(){         //USART1 INT 
@@ -112,16 +135,16 @@ void USART1_IRQHandler(){         //USART1 INT
                 uint8_t nextChar2 = USART_read(USART1);
                 switch (nextChar2) {
                     case 'A': // up key
-                        printf("up key\r\n"); // A ??
+                        printf("up key\r\n");
                         break;
                     case 'B': // down key
-                        printf("down key\r\n"); // B ??
+                        printf("down key\r\n");
                         break;
                     case 'C': // right key
-                        printf("right key\r\n"); // D ??
+                        printf("right key\r\n");
                         break;
                     case 'D': // left key
-                        printf("left key\r\n"); // C ??
+                        printf("left key\r\n"); 
                         break;
                     default:
                         break;
@@ -192,27 +215,63 @@ void TIM2_IRQHandler(void){
 	}
 }
 
+void TIM4_IRQHandler(void){
+	if(is_UIF(TIM4)){ 
+		cnt++;
+		if(cnt>500){
+		//PWM_duty(PWM_PIN, change_duty);
+		printf("value1 = %d \r\n",value1);
+		printf("value2 = %d \r\n",value2);
+		printf("\r\n");
+		if((value1<1500)&&(value2<1500)){
+			printf("Go straight\r\n\n");
+			moterPWM=0.8;//0.8 duty ratio motor1
+			moterPWM_2=0.8;//0.8 duty ratio motor2
+		}
+		else if((value1>1500)&&(value2<1500)){
+			printf("Go Left\r\n\n");
+			moterPWM=0.5;// left, 0.5 duty ratio motor2
+			moterPWM_2=0.8;// left, 0.8 duty ratio motor1
+		}
+		else if((value1<1500)&&(value2>1500)){
+			printf("Go Right\r\n\n");
+			moterPWM=0.8;// right, 0.8 duty ratio motor1
+					moterPWM_2=0.5;// right, 0.5 duty ratio motor2
+		}
+		else if((value1>1500)&&(value2>1500)){
+			printf("Go Straight\r\n\n");
+			moterPWM=0.8;//0.8 duty ratio motor1
+			moterPWM_2=0.8;//0.8 duty ratio motor2
+		}
+	cnt=0;
+	}
+		
+		// clear by writing 0
+		clear_UIF(TIM4); 		// Clear UI flag by writing 0              
+	}
+}
+
 
 void USART2_IRQHandler(){         //USART2 INT 
  if (is_USART_RXNE(USART2)) {
         pcData = USART_read(USART2);
         
-        if (pcData == 0x1B) { // ESC ?
+        if (pcData == 0x1B) { // ESC key
             uint8_t nextChar1 = USART_read(USART2);
             if (nextChar1 == '[') {
                 uint8_t nextChar2 = USART_read(USART2);
                 switch (nextChar2) {
-                    case 'A': // ?? ???
-                        printf("A\r\n"); // A ??
+                    case 'A': // up key
+                        printf("Up key in usart2\r\n");
                         break;
-                    case 'B': // ??? ???
-                        printf("B\r\n"); // B ??
+                    case 'B': // down key
+                        printf("Down key in usart2\r\n");
                         break;
-                    case 'C': // ??? ???
-                        printf("D\r\n"); // D ??
+                    case 'C': // right key
+                        printf("Right key in usart2\r\n");
                         break;
-                    case 'D': // ?? ???
-                        printf("C\r\n"); // C ??
+                    case 'D': // left key
+                        printf("Left key in usart2\r\n"); 
                         break;
                     default:
                         break;
@@ -228,48 +287,13 @@ void USART2_IRQHandler(){         //USART2 INT
     }
 }
 
-
-/*
-void USART2_IRQHandler() { // USART2 INT 
-    if (is_USART_RXNE(USART2)) {
-        pcData = USART_read(USART2);
-        USART_write(USART1, &pcData, 1);
-        
-        printf("%c", pcData);
-        
-        if (pcData == END_CHAR)
-            printf("\r\n");
-
-        // ??? ? ?? ??
-        if (pcData == 0x1B) { // ESC ? (??? ?? ??)
-            uint8_t nextChar = USART_read(USART2); // ?? ?? ??
-            if (nextChar == '[') { // ???? ? ??
-                nextChar = USART_read(USART2); // ?? ?? ?? ??
-
-                switch (nextChar) {
-                    case 'A': // ?? ???
-                        duty = 1.0; // ??? ????? ??
-                        printf("Duty set to maximum: %f\r\n", duty);
-                        break;
-                    case 'B': // ??? ???
-                        // ?? ??
-                        moterDIR = !moterDIR;
-                        moterDIR_2 = !moterDIR_2;
-                        printf("Direction reversed: %ld, %ld\r\n", moterDIR, moterDIR_2);
-                        break;
-                    case 'C': // ??? ???
-                        duty += 0.1; // ?? ??
-                        if (duty > 1.0) duty = 1.0; // ??? ??
-                        printf("Duty increased: %f\r\n", duty);
-                        break;
-                    case 'D': // ?? ???
-                        duty -= 0.1; // ?? ??
-                        if (duty < 0.0) duty = 0.0; // ??? ??
-                        printf("Duty decreased: %f\r\n", duty);
-                        break;
-                }
-            }
-        }
-    }
+void ADC_IRQHandler(void){
+	if(is_ADC_OVR())
+		clear_ADC_OVR();
+	//printf("call function\r\n");
+	if(is_ADC_JEOC()){		// after finishing sequence
+		value1 = JADC_read(1);
+		value2 = JADC_read(2);
+		clear_ADC_JEOC();
+	}
 }
-*/
