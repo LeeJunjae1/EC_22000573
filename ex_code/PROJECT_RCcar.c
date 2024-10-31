@@ -141,8 +141,9 @@ void setup(void)
 	//TIM5 enable for ADC
 	TIM_UI_enable(TIM5);
 	NVIC_EnableIRQ(TIM5_IRQn);
-	NVIC_SetPriority(TIM5_IRQn, 3);
+	NVIC_SetPriority(TIM5_IRQn, 1);
 	
+	/*
 	//INIT ultra sonic
 	GPIO_otype(TRIG, 0);//push pull
 	GPIO_pupd(TRIG,0);//NO pull-up pull-down
@@ -159,7 +160,7 @@ void setup(void)
  	ICAP_counter_us(ECHO, 10);   	// ICAP counter step time as 10us
 	ICAP_setup(ECHO, 1, IC_RISE);  // TIM4_CH1 as IC1 , rising edge detect
 	ICAP_setup(ECHO, 2, IC_FALL);  // TIM4_CH2 as IC2 , falling edge detect
-
+*/
 	
 }
 
@@ -362,17 +363,52 @@ void TIM4_IRQHandler(void){
 	}
 }*/
 
+
 void TIM5_IRQHandler(void){
 	if(is_UIF(TIM5)){ 
 		cnt++;
 		cnt1++;
 		if((cnt>10)&&(Mode_flag==1)){
 			//for interrupt 10msec
-		//PWM_duty(PWM_PIN, change_duty);
-			/*
-		printf("value1 = %d \r\n",value1);
-		printf("value2 = %d \r\n",value2);
-		printf("\r\n");*/
+
+		if((value1<1500)&&(value2<1500)){
+			//printf("Go straight\r\n\n");
+			moterPWM=0.9;//0.8 duty ratio motor1
+			moterPWM_2=0.9;//0.8 duty ratio motor2
+		}
+		else if((value1>1500)&&(value2<1500)){
+			//printf("Go Left\r\n\n");
+			moterPWM=0.5;// left, 0.5 duty ratio motor2
+			moterPWM_2=0.8;// left, 0.8 duty ratio motor1
+		}
+		else if((value1<1500)&&(value2>1500)){
+			//printf("Go Right\r\n\n");
+			moterPWM=0.8;// right, 0.8 duty ratio motor1
+					moterPWM_2=0.5;// right, 0.5 duty ratio motor2
+		}
+		else if((value1>1500)&&(value2>1500)){
+			//printf("Go Straight\r\n\n");
+			moterPWM=0.9;//0.8 duty ratio motor1
+			moterPWM_2=0.9;//0.8 duty ratio motor2
+		}
+	cnt=0;
+	}
+		if(cnt1>500&&(Mode_flag==1)){
+			LED_toggle();
+			cnt1=0;
+		}
+		
+		// clear by writing 0
+		clear_UIF(TIM5); 		// Clear UI flag by writing 0              
+	}
+}
+/*
+void TIM4_IRQHandler(void){
+	if(is_UIF(TIM4)){ 
+		cnt++;
+		cnt1++;
+		if((cnt>10)&&(Mode_flag==1)){
+
 		if((value1<1500)&&(value2<1500)&&(Ultra_flag==0)){
 			printf("Go straight\r\n\n");
 			moterPWM=0.9;//0.8 duty ratio motor1
@@ -401,10 +437,10 @@ void TIM5_IRQHandler(void){
 		}
 		
 		// clear by writing 0
-		clear_UIF(TIM5); 		// Clear UI flag by writing 0              
+		clear_UIF(TIM4); 		// Clear UI flag by writing 0              
 	}
 }
-
+*/
 
 void USART2_IRQHandler(){         //USART2 INT 
  if (is_USART_RXNE(USART2)) {
