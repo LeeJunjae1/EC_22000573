@@ -67,11 +67,11 @@ uint8_t VELstate=0;//VEL state
 int STRval=0; //STR value, negative: left, positive: right
 int STRabs=0;//for str value abs
 uint8_t STRstate=0;//STR state
-float motorLeft[7]={0.8f,0.8f,0.8f,0.7f,0.6f,0.5f};
-float motorRight[7]={0.4f, 0.5f, 0.6f, 0.7f,0.8f,0.8f,0.8f};
+//float motorLeft[7]={0.8f,0.8f,0.8f,0.7f,0.6f,0.5f};
+//float motorRight[7]={0.4f, 0.5f, 0.6f, 0.7f,0.8f,0.8f,0.8f};
 
-float motorLeft_1[3]={0.4f,0.5f,0.6f};
-float motorRight_2[3]={0.4,0.5f,0.6f};
+//float motorLeft_1[3]={0.4f,0.5f,0.6f};
+//float motorRight_2[3]={0.4,0.5f,0.6f};
 
 uint32_t ovf_cnt = 0;//count over count
 float distance = 0;
@@ -158,12 +158,12 @@ void setup(void)
 	
 	//motor2
 	PWM_init(Moter_1);// pwm settnig
-	PWM_period_us(Moter_1,500);//0.5msec, 2kHz
+	PWM_period_us(Moter_1,250);//0.25msec, 4kHz
 	PWM_duty(Moter_1,duty);//change duty
 	
 	//motor2
 	PWM_init(Moter_2);// pwm settnig
-	PWM_period_us(Moter_2,500);//0.5msec, 2kHz
+	PWM_period_us(Moter_2,250);//0.25msec, 4kHz
 	PWM_duty(Moter_2,duty_2);//change duty
 	
 	//Direct pin
@@ -181,8 +181,8 @@ void setup(void)
 	moterDIR_2=GPIO_read(Dir_Pin_2);
 	
 	//TIM2
-	//TIM_init(TIM2); //1msec
-	TIM_UI_enable(TIM2);
+	//TIM_init(TIM2); //0.25msec
+	TIM_UI_enable(TIM2);//TIMER2 enable
 	NVIC_EnableIRQ(TIM2_IRQn);	// TIM2's interrupt request enabled	
 	//NVIC_SetPriority(TIM2_IRQn, 3);
 	
@@ -242,25 +242,7 @@ void USART1_IRQHandler(){         //USART1 INT
 										//change speed
 										moterPWM=motorPWMState[PWMstate];
 										moterPWM_2=motorPWMState[PWMstate];
-									//	printf("current speed state is %d\r\n",PWMstate);
-                       // printf("up key\r\n");
-										switch (PWMstate){
-											case 0:
-												VELstate='0';
-												break;
-											case 1:
-												VELstate='1';
-												break;
-											case 2:
-												VELstate='2';
-												break;
-											case 3:
-												VELstate='3';
-												break;
-										}
 										
-//										if(PWMstate){
-	//									}
                         break;
 										
                     case 'B': // down key
@@ -271,23 +253,6 @@ void USART1_IRQHandler(){         //USART1 INT
 										PWMstate--;
 										moterPWM=motorPWMState[PWMstate];
 										moterPWM_2=motorPWMState[PWMstate];
-										switch (PWMstate){
-											case 0:
-												VELstate='0';
-												break;
-											case 1:
-												VELstate='1';
-												break;
-											case 2:
-												VELstate='2';
-												break;
-											case 3:
-												VELstate='3';
-												break;
-										}
-										
-									//	printf("when press down current speed is %d\r\n",PWMstate);
-                       // printf("down key\r\n");
                         break;
 										
                     case 'C': // right key
@@ -297,61 +262,21 @@ void USART1_IRQHandler(){         //USART1 INT
 											STRval=3; //MAX 3
 										}
 										STRabs=abs(STRval);
-									//	printf("current str is: %d\r\n",STRval);
 										if(STRval>0){
 											//Turn right
 										moterPWM=motorPWMState[PWMstate];//left motor speed
 										moterPWM_2=motorPWMState[PWMstate]-(0.05f)*(1+STRabs*0.8)*STRabs;
-										//	printf("right with right key value: %f, val2: %f\r\n",moterPWM, moterPWM_2);
 										}
 										else if(STRval==0){
 											moterPWM=motorPWMState[PWMstate];//left motor speed
 											moterPWM_2=motorPWMState[PWMstate];
-										//	printf("straight wigh right value: %f, val2: %f\r\n",moterPWM, moterPWM_2);
+
 										}
 										else if(STRval<0){
 											//turn left
 											moterPWM=motorPWMState[PWMstate]-(0.05f)*(1+STRabs*0.8)*STRabs;//left motor speed
 											moterPWM_2=motorPWMState[PWMstate];
-										//	printf("left with right key value: %f, val2: %f\r\n",moterPWM, moterPWM_2);
 										}
-										if(STRval>=0){
-											switch (STRval){
-												case 0:
-													STRstate='0';
-													break;
-												case 1:
-													STRstate='1';
-													break;
-												case 2:
-													STRstate='2';
-													break;
-												case 3:
-													STRstate='3';
-													break;
-											}
-										}
-										else if(STRval<0){
-											switch (STRabs){
-												case 0:
-													STRstate='0';
-													break;
-												case 1:
-													STRstate='1';
-													break;
-												case 2:
-													STRstate='2';
-													break;
-												case 3:
-													STRstate='3';
-													break;
-											}
-											
-										}
-										//moterPWM=motorLeft[STRval+3];//change left motor speed
-										//moterPWM_2=motorRight[STRval+3];//change right motor speed
-                      //  printf("right key\r\n");
-
                         break;
 										
                     case 'D': // left key
@@ -364,18 +289,36 @@ void USART1_IRQHandler(){         //USART1 INT
 											//Turn right
 										moterPWM=motorPWMState[PWMstate];//left motor speed
 										moterPWM_2=motorPWMState[PWMstate]-(0.05f)*(1+STRabs*0.8)*STRabs;
-										//	printf("right value: %f, val2: %f\r\n",moterPWM, moterPWM_2);
 										}
 										else if(STRval==0){
 											moterPWM=motorPWMState[PWMstate];//left motor speed
 											moterPWM_2=motorPWMState[PWMstate];
-										//	printf("straigh value: %f, val2: %f\r\n",moterPWM, moterPWM_2);
 										}
 										else if(STRval<0){
 											//turn left
 											moterPWM=motorPWMState[PWMstate]-(0.05f)*(1+STRabs*0.8)*STRabs;//left motor speed
 											moterPWM_2=motorPWMState[PWMstate];
-										//	printf("left value: %f, val2: %f\r\n",moterPWM, moterPWM_2);
+
+										}
+										
+                        break;
+                    default:
+                        break;
+									}
+										
+										switch (PWMstate){
+											case 0:
+												VELstate='0';
+												break;
+											case 1:
+												VELstate='1';
+												break;
+											case 2:
+												VELstate='2';
+												break;
+											case 3:
+												VELstate='3';
+												break;
 										}
 										
 										if(STRval>=0){
@@ -411,24 +354,12 @@ void USART1_IRQHandler(){         //USART1 INT
 													break;
 											}
 											
-										}
-									//	printf("WHEN PUSH left current str is: %d\r\n",STRval);
-										//moterPWM=motorLeft[STRval+3];//change left motor speed
-										//moterPWM_2=motorRight[STRval+3];//change right motor speed
-									//	printf("left key\r\n"); 
-                        break;
-                    default:
-                        break;
+										
                 }
             }
         } 
 		else{
-		
-	//	USART_write(USART1,(uint8_t*) "BT sent : ", 10);
-		//USART_write(USART1, &btData, 1);
-		//USART_write(USART1,(uint8_t*) "\r\n", 2);
-
-	//	printf("NUCLEO got : %c (from BT)\r\n",btData);
+	
 		
 		
 			if((btData=='M')||(btData=='m')){
@@ -442,18 +373,7 @@ void USART1_IRQHandler(){         //USART1 INT
 					current_mode='A';//auto mode
 					Mode_flag=1;
 				}
-				/*
-			else if (((btData=='l')||(btData=='L')||(btData=='Q')||(btData=='q'))&&(Mode_flag==0)) {
-       bReceive=1;  // Prepare to receive the next character
-			moterPWM=0.5;// left, 0.5 duty ratio motor2
-			moterPWM_2=0.8;// left, 0.8 duty ratio motor1
-		//	printf("Turn Left\r\n\n");
-        }
-			else if(((btData=='R')||(btData=='r')||(btData=='E')||(btData=='e'))&&(Mode_flag==0)){
-					moterPWM=0.8;// right, 0.8 duty ratio motor1
-					moterPWM_2=0.5;// right, 0.5 duty ratio motor2
-		//			printf("Turn Right\r\n\n");
-				}*/
+
 				else if(((btData=='F')||(btData=='f')||(btData=='W')||(btData=='w'))&&(Mode_flag==0)){
 					
 					current_dir='F';//current dirction is forward
@@ -469,9 +389,7 @@ void USART1_IRQHandler(){         //USART1 INT
 					
 					moterPWM=motorPWMState[PWMstate];
 					moterPWM_2=motorPWMState[PWMstate];
-			//		moterPWM=1.0;//0.8 duty ratio motor1
-			//		moterPWM_2=1.0;//0.8 duty ratio motor2
-			//		printf("Go straight\r\n\n");
+
 				}
 				else if(((btData=='b')||(btData=='B')||(btData=='x')||(btData=='X'))&&(Mode_flag==0)){
 					
@@ -488,9 +406,7 @@ void USART1_IRQHandler(){         //USART1 INT
 					
 					moterPWM=motorPWMState[PWMstate];
 					moterPWM_2=motorPWMState[PWMstate];
-					//moterPWM=1.0;//1.0 duty ratio motor1
-					//moterPWM_2=1.0;//1.0 duty ratio motor2
-		//			printf("Moving Backward\r\n\n");
+
 				}
 				else if(((btData=='S')||(btData=='s'))&&(Mode_flag==0)){
 					moterDIR=GPIO_read(Dir_Pin_1);
@@ -512,8 +428,7 @@ void USART1_IRQHandler(){         //USART1 INT
 	}
 }
 void TIM2_IRQHandler(void){
-	if(is_UIF(TIM2)){ 
-		//PWM_duty(PWM_PIN, change_duty);
+	if(is_UIF(TIM2)){
 		
 		duty=fabs(moterDIR-moterPWM);//change speeed
 		PWM_duty(Moter_1,duty);//change duty
@@ -566,37 +481,37 @@ void TIM5_IRQHandler(void){
 		cnt1++;
 		if((cnt>10)&&(Mode_flag==1)&&(Ultra_flag==0)){
 			
-		if((value1<1500)&&(value2<1500)){
+		if((value1<1700)&&(value2<1700)){
 			//printf("Go straight\r\n\n");
 			moterPWM=1.0;//0.8 duty ratio motor1
 			moterPWM_2=1.0;//0.8 duty ratio motor2
 			STRval=0;
 			STRstate='0';//straight
-			auto_state=0;//go state
+			//auto_state=0;//go state
 		}
-		else if((value1>1500)&&(value2<1500)){
+		else if((value1>1700)&&(value2<1700)){
 			//printf("Go Left\r\n\n");
-			moterPWM=0.5;// left, 0.8 duty ratio motor1
+			moterPWM=0.802;// left, 0.8 duty ratio motor1
 			moterPWM_2=1.0;// left, 0.5 duty ratio motor2
 			STRval=-1;//left
 			STRstate='1';//left
-			auto_state=1;//right state
+			//auto_state=1;//right state
 		}
-		else if((value1<1500)&&(value2>1500)){
+		else if((value1<1700)&&(value2>1700)){
 			//printf("Go Right\r\n\n");
 			moterPWM=1.0;// right, 0.5 duty ratio motor1
-			moterPWM_2=0.5;// right, 0.8 duty ratio motor2
+			moterPWM_2=0.802;// right, 0.8 duty ratio motor2
 			STRval=1;//right
 			STRstate='1';//right
-			auto_state=2;//right state
+			//auto_state=2;//right state
 		}
-		else if((value1>1500)&&(value2>1500)){
+		else if((value1>1700)&&(value2>1700)){
 			//printf("Go Straight\r\n\n");
 			moterPWM=1.0;//0.8 duty ratio motor1
 			moterPWM_2=1.0;//0.8 duty ratio motor2
 			STRval=0;
 			STRstate='0';//straight
-			auto_state=0;//go state
+			//auto_state=0;//go state
 		}
 		
 		VELstate='1';
@@ -612,11 +527,6 @@ void TIM5_IRQHandler(void){
 			LED_toggle();
 			cnt1=0;
 		}
-		/*
-		if(cnt2>1000){
-			printf("MOD: %c DIR: %c STR: %d VEL: %d\r\n",current_mode, current_dir,STRval,PWMstate);
-			cnt2=0;
-		}*/
 		
 		// clear by writing 0
 		clear_UIF(TIM5); 		// Clear UI flag by writing 0              
